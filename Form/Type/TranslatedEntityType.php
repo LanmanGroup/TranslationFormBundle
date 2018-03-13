@@ -69,7 +69,10 @@ class TranslatedEntityType extends AbstractType
 
     public function getParent()
     {
-        return 'entity';
+        return
+            method_exists('Symfony\Component\Form\AbstractType', 'getBlockPrefix') ?
+            'Symfony\Bridge\Doctrine\Form\Type\EntityType' :
+            'entity';
     }
 
     // BC for SF < 3.0
