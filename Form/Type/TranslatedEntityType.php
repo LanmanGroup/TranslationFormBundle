@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of A2lix projects.
+ * This file is part of the TranslationFormBundle package.
  *
- * (c) David ALLIX
+ * (c) David ALLIX <http://a2lix.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -36,6 +36,12 @@ class TranslatedEntityType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        // BC for SF < 2.7
+        $optionProperty = 'choice_label';
+        if (in_array('property', $resolver->getDefinedOptions())) {
+            $optionProperty = 'property';
+        }
+
         $resolver->setDefaults([
             'translation_path' => 'translations',
             'translation_property' => null,
@@ -44,12 +50,12 @@ class TranslatedEntityType extends AbstractType
                     ->select('e, t')
                     ->join('e.translations', 't');
             },
-            'choice_label' => function (Options $options) {
+            $optionProperty => function (Options $options) {
                 if (null === ($request = $this->requestStack->getCurrentRequest())) {
                     throw new \RuntimeExceptionn('Error while getting request');
                 }
 
-                return $options['translation_path'] . '[' . $request->getLocale() . '].' . $options['translation_property'];
+                return $options['translation_path'].'['.$request->getLocale().'].'.$options['translation_property'];
             },
         ]);
     }

@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of A2lix projects.
+ * This file is part of the TranslationFormBundle package.
  *
- * (c) David ALLIX
+ * (c) David ALLIX <http://a2lix.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -28,7 +28,9 @@ abstract class TypeTestCase extends BaseTypeTestCase
     {
         parent::setUp();
 
-        $validator = $this->getMock('\Symfony\Component\Validator\Validator\ValidatorInterface');
+        $validator = $this->getMockBuilder('\Symfony\Component\Validator\Validator\ValidatorInterface')
+                     ->disableOriginalConstructor()
+                     ->getMock();
         $validator->method('validate')->will($this->returnValue(new ConstraintViolationList()));
 
         $this->factory = Forms::createFormFactoryBuilder()
@@ -43,7 +45,9 @@ abstract class TypeTestCase extends BaseTypeTestCase
             )
             ->getFormFactory();
 
-        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $this->dispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->builder = new FormBuilder(null, null, $this->dispatcher, $this->factory);
     }
 
@@ -53,7 +57,7 @@ abstract class TypeTestCase extends BaseTypeTestCase
             return $this->defaultFormManipulator;
         }
 
-        $config = Setup::createAnnotationMetadataConfiguration([__DIR__ . '/../Fixtures/Entity'], true, null, null, false);
+        $config = Setup::createAnnotationMetadataConfiguration([__DIR__.'/../Fixtures/Entity'], true, null, null, false);
         $entityManager = EntityManager::create(['driver' => 'pdo_sqlite'], $config);
         $doctrineInfo = new \A2lix\AutoFormBundle\ObjectInfo\DoctrineInfo($entityManager->getMetadataFactory());
 

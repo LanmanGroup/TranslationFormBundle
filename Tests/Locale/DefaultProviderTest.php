@@ -1,9 +1,9 @@
 <?php
 
 /*
- * This file is part of A2lix projects.
+ * This file is part of the TranslationFormBundle package.
  *
- * (c) Gonzalo Vilaseca <gvilaseca@reiss.co.uk> . Reiss Clothing Ltd.
+ * (c) David ALLIX <http://a2lix.fr>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -41,7 +41,7 @@ class DefaultProviderTest extends \PHPUnit_Framework_TestCase
         // set expectations for constructor calls
         $this->setExpectedException(
             'InvalidArgumentException', 'Default locale `de` not found within the configured locales `[es,en]`.'
-                . ' Perhaps you need to add it to your `a2lix_translation_form.locales` bundle configuration?'
+                .' Perhaps you need to add it to your `a2lix_translation_form.locales` bundle configuration?'
         );
 
         // now call the constructor
